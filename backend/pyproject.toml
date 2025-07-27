@@ -1,0 +1,32 @@
+[project]
+name = "aes-dfa"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "celery[redis]>=5.5.3",
+    "fastapi>=0.116.1",
+    "flower>=2.0.1",
+    "pydantic-settings>=2.10.1",
+    "uvicorn>=0.35.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "aes-dfa",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "pytest-env>=1.1.5",
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=app"
+env = [
+    "CELERY_BROKER_URL=redis://",
+    "CELERY_RESULT_BACKEND=redis://",
+]
