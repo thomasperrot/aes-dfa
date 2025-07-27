@@ -1,3 +1,5 @@
+.coverage
+.gitignore
 .venv
 .dockerignore
 .python-version
