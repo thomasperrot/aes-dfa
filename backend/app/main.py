@@ -1,9 +1,12 @@
+from uuid import UUID
+
 from celery import Celery
+from celery.result import AsyncResult
 from fastapi import FastAPI
 
 from .settings import settings
-from .schemas import CipherTexts
-from .tasks import compute_key
+from .schemas import CipherTexts, TaskStatus
+from .tasks import compute_keys
 
 app = FastAPI()
 celery = Celery(
@@ -15,10 +18,23 @@ celery = Celery(
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {}
 
 
-@app.post("/aes-dfa")
+@app.post("/tasks", status_code=201)
 def compute_dfa(cipher_texts: CipherTexts):
-    return compute_key(cipher_texts.normal_cipher_text, cipher_texts.faulty_cipher_text)
+    task = compute_keys.delay(
+        cipher_texts.normal_cipher_text, cipher_texts.faulty_cipher_text
+    )
+    return {"taskId": task.id}
+
+
+@app.get("/tasks/{task_id}", response_model=TaskStatus)
+def get_status(task_id: UUID):
+    task_result = AsyncResult(str(task_id))
+    return {
+        "task_id": str(task_id),
+        "taskStatus": task_result.status,
+        "taskResult": task_result.result,
+    }

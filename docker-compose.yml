@@ -32,3 +32,5 @@ services:
       - worker
   redis:
     image: redis:8
+    ports:
+      - "6379:6379"
