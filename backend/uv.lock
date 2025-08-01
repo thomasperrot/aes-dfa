@@ -5,8 +5,18 @@ requires-python = ">=3.12"
 [[package]]
 name = "aes-dfa"
 version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/4b/ba25930d6655c48555b7c44b6433f7a270a025d35c16344e2b71407678fc/aes_dfa-0.1.0.tar.gz", hash = "sha256:43fd82f776f6fbacfadad9d4403df5416a7129b396f741d680d30b1f602a7d44", size = 18213, upload-time = "2025-08-01T14:51:00.288Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/9b/4202ebc65de9a0a1a4443eed044d280b4474d24ae0814fcd8e4a3bf50c7f/aes_dfa-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl", hash = "sha256:593dea943f19b42c71a8015378ae1975d237c601465eabca55625fd4f34084c0", size = 259487, upload-time = "2025-08-01T14:50:58.676Z" },
+]
+
+[[package]]
+name = "aes-dfa-backend"
+version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "aes-dfa" },
     { name = "celery", extra = ["redis"] },
     { name = "fastapi" },
     { name = "flower" },
@@ -21,10 +31,12 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-env" },
+    { name = "pytest-mock" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "aes-dfa", specifier = ">=0.1.0" },
     { name = "celery", extras = ["redis"], specifier = ">=5.5.3" },
     { name = "fastapi", specifier = ">=0.116.1" },
     { name = "flower", specifier = ">=2.0.1" },
@@ -39,6 +51,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "pytest-env", specifier = ">=1.1.5" },
+    { name = "pytest-mock", specifier = ">=3.14.1" },
 ]
 
 [[package]]
@@ -564,6 +577,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1f/31/27f28431a16b83cab7a636dce59cf397517807d247caa38ee67d65e71ef8/pytest_env-1.1.5.tar.gz", hash = "sha256:91209840aa0e43385073ac464a554ad2947cc2fd663a9debf88d03b01e0cc1cf", size = 8911, upload-time = "2024-09-17T22:39:18.566Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/de/b8/87cfb16045c9d4092cfcf526135d73b88101aac83bc1adcf82dfb5fd3833/pytest_env-1.1.5-py3-none-any.whl", hash = "sha256:ce90cf8772878515c24b31cd97c7fa1f4481cd68d588419fd45f10ecaee6bc30", size = 6141, upload-time = "2024-09-17T22:39:16.942Z" },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.14.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/71/28/67172c96ba684058a4d24ffe144d64783d2a270d0af0d9e792737bddc75c/pytest_mock-3.14.1.tar.gz", hash = "sha256:159e9edac4c451ce77a5cdb9fc5d1100708d2dd4ba3c3df572f14097351af80e", size = 33241, upload-time = "2025-05-26T13:58:45.167Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b2/05/77b60e520511c53d1c1ca75f1930c7dd8e971d0c4379b7f4b3f9644685ba/pytest_mock-3.14.1-py3-none-any.whl", hash = "sha256:178aefcd11307d874b4cd3100344e7e2d888d9791a6a1d9bfe90fbc1b74fd1d0", size = 9923, upload-time = "2025-05-26T13:58:43.487Z" },
 ]
 
 [[package]]

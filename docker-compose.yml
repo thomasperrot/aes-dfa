@@ -3,10 +3,11 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
-    command: uvicorn app.main:app --host 0.0.0.0 --reload
+    command: uvicorn app.main:app --host 0.0.0.0
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - NB_THREADS=3
     depends_on:
       - redis
   worker:
@@ -15,6 +16,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - NB_THREADS=3
     depends_on:
       - backend
       - redis
@@ -26,6 +28,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - NB_THREADS=3
     depends_on:
       - backend
       - redis

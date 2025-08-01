@@ -3,4 +3,5 @@
 .venv
 .dockerignore
 .python-version
+tests
 Dockerfile

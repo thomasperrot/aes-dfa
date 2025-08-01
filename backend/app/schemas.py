@@ -21,7 +21,6 @@ class TaskStatus(BaseModel):
         Literal["PENDING", "STARTED", "RETRY", "FAILURE", "SUCCESS"],
         Field(alias="taskStatus"),
     ]
-    task_result: Annotated[str | None, Field(alias="taskResult")]
+    task_result: Annotated[list[str] | None, Field(alias="taskResult")]
 
-    class Config:
-        populate_by_name = True
+    model_config = ConfigDict(populate_by_name=True)
