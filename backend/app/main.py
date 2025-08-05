@@ -3,17 +3,26 @@ from uuid import UUID
 from celery import Celery
 from celery.result import AsyncResult
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from .settings import settings
 from .schemas import CipherTexts, TaskStatus
 from .tasks import compute_keys
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 celery = Celery(
     __name__,
     broker_url=settings.celery_broker_url,
     result_backend=settings.celery_result_backend,
     pool="solo",
+    task_track_started=True,
 )
 
 
@@ -34,7 +43,7 @@ def compute_dfa(cipher_texts: CipherTexts):
 def get_status(task_id: UUID):
     task_result = AsyncResult(str(task_id))
     return {
-        "task_id": str(task_id),
+        "taskId": str(task_id),
         "taskStatus": task_result.status,
-        "taskResult": task_result.result,
+        "taskResult": task_result.result if task_result.status == "SUCCESS" else None,
     }
