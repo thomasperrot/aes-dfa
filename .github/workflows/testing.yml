@@ -12,18 +12,20 @@ env:
 jobs:
   test-rust:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust
     steps:
       - uses: actions/checkout@v4
       - name: Build
         run: cargo build --verbose
-        with:
-          working-directory: rust
       - name: Run tests
         run: cargo test --verbose
-        with:
-          working-directory: rust
   test-python:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     services:
       redis:
         image: redis
@@ -38,5 +40,3 @@ jobs:
         uses: astral-sh/setup-uv@v6
       - name: Test with python 3.11
         run: uv run --frozen pytest
-        with:
-          working-directory: backend
