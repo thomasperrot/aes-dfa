@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { useTheme } from 'vuetify'
+import HomeView from './views/HomeView.vue'
 
 const theme = useTheme()
 </script>
@@ -11,13 +11,9 @@ const theme = useTheme()
       <header>
         <div class="wrapper">
           <v-btn @click="theme.toggle()" text="Toggle Light / Dark"></v-btn>
-          <nav>
-            <RouterLink to="/">Home</RouterLink>
-          </nav>
         </div>
       </header>
-
-      <RouterView />
+      <HomeView />
     </v-main>
   </v-app>
 </template>
