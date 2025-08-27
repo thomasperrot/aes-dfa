@@ -1,60 +1,65 @@
 <script setup lang="ts">
-import axios from 'axios';
+import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'http://localhost:8000'
 
-const isFormValid = defineModel("isFormValid", { default: false})
-const normalCipherText = defineModel("normalCipherText")
-const faultyCipherText = defineModel("faultCipherText")
-const loading = defineModel("loading", { default: false })
-const status = defineModel("status")
-const error = defineModel("error")
-const keys = defineModel("keys")
-const cipherTextRules = [(value: string) => /^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars']
+const isFormValid = defineModel('isFormValid', { default: false })
+const normalCipherText = defineModel('normalCipherText')
+const faultyCipherText = defineModel('faultCipherText')
+const loading = defineModel('loading', { default: false })
+const status = defineModel('status')
+const error = defineModel('error')
+const keys = defineModel('keys')
+const cipherTextRules = [
+  (value: string) => (/^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars'),
+]
 
-async function submit () {
- loading.value = true
- status.value = ""
- error.value = ""
- keys.value = []
+async function submit() {
+  loading.value = true
+  status.value = ''
+  error.value = ''
+  keys.value = []
 
- let response
- let taskStatus
- try {
-   response = await axios.post("/tasks", {normalCipherText: normalCipherText.value,  faultyCipherText: faultyCipherText.value})
- } catch {
-   error.value = "Failed to send your ciphertext to computation. Please try again."
-   return
- }
- if (response.status != 201) {
-   error.value = `Status code ${response.status}`
- }
- const taskId = response.data['taskId']
- while (true) {
-   try {
-     response = await axios.get(`/tasks/${taskId}`)
-   } catch {
-     error.value = "Failed to fetch your task result. Please try again."
-     return
-   }
-   taskStatus = response.data.taskStatus
-   if (taskStatus === "PENDING") {
-      status.value = "Your task is currently waiting. Processing will start soon."
-   } else if (taskStatus === "STARTED") {
-      status.value = "Your task has started, it should be completed in one minute."
-   } else if (response.data.taskStatus === "RETRY") {
-      status.value = "Your task is being retried."
-   } else if (response.data.taskStatus === "SUCCESS") {
-      status.value = "Computation successful."
+  let response
+  let taskStatus
+  try {
+    response = await axios.post('/tasks', {
+      normalCipherText: normalCipherText.value,
+      faultyCipherText: faultyCipherText.value,
+    })
+  } catch {
+    error.value = 'Failed to send your ciphertext to computation. Please try again.'
+    return
+  }
+  if (response.status != 201) {
+    error.value = `Status code ${response.status}`
+  }
+  const taskId = response.data['taskId']
+  while (true) {
+    try {
+      response = await axios.get(`/tasks/${taskId}`)
+    } catch {
+      error.value = 'Failed to fetch your task result. Please try again.'
+      return
+    }
+    taskStatus = response.data.taskStatus
+    if (taskStatus === 'PENDING') {
+      status.value = 'Your task is currently waiting. Processing will start soon.'
+    } else if (taskStatus === 'STARTED') {
+      status.value = 'Your task has started, it should be completed in one minute.'
+    } else if (response.data.taskStatus === 'RETRY') {
+      status.value = 'Your task is being retried.'
+    } else if (response.data.taskStatus === 'SUCCESS') {
+      status.value = 'Computation successful.'
       keys.value = response.data.taskResult
       break
-   } else if (response.data.taskStatus === "ERROR") {
-     error.value = "Something went wrong. Please investigate."
-     break
-   }
-   await new Promise(r => setTimeout(r, 1000));
- }
- loading.value = false
+    } else if (response.data.taskStatus === 'ERROR') {
+      error.value = 'Something went wrong. Please investigate.'
+      break
+    }
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+  loading.value = false
 }
 </script>
 
