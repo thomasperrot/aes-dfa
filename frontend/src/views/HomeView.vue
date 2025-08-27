@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import axios from 'axios'
+import CrackedKey from '@/components/CrackedKey.vue'
 
 axios.defaults.baseURL = 'http://localhost:8000'
 
 const isFormValid = defineModel('isFormValid', { default: false })
-const normalCipherText = defineModel('normalCipherText')
-const faultyCipherText = defineModel('faultCipherText')
+const normalCipherText = defineModel('normalCipherText', { default: '' })
+const faultyCipherText = defineModel('faultCipherText', { default: '' })
 const loading = defineModel('loading', { default: false })
-const status = defineModel('status')
-const error = defineModel('error')
-const keys = defineModel('keys')
+const status = defineModel('status', { default: '' })
+const error = defineModel('error', { default: '' })
+const keys = defineModel('keys', { default: [] })
 const cipherTextRules = [
   (value: string) => (/^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars'),
 ]
@@ -93,8 +94,6 @@ async function submit() {
     <div v-if="status">
       {{ status }}
     </div>
-    <v-container v-for="key in keys" :key="key">
-      <v-text-field ref="textToCopy">{{ key }}</v-text-field>
-    </v-container>
+    <CrackedKey v-for="crackedKey in keys" :key="crackedKey" :crackedKey="crackedKey" />
   </main>
 </template>
