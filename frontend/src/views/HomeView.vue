@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
-const isFormValid = defineModel("isFormValid")
+const isFormValid = defineModel("isFormValid", { default: false})
 const normalCipherText = defineModel("normalCipherText")
 const faultyCipherText = defineModel("faultCipherText")
-const loading = defineModel("loading")
+const loading = defineModel("loading", { default: false })
 const status = defineModel("status")
 const error = defineModel("error")
 const keys = defineModel("keys")
-const cipherTextRules = [value => /^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars']
+const cipherTextRules = [(value: string) => /^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars']
 
-async function submit (event) {
+async function submit () {
  loading.value = true
  status.value = ""
  error.value = ""
@@ -89,8 +88,8 @@ async function submit (event) {
     <div v-if="status">
       {{ status }}
     </div>
-    <div v-for="key in keys">
-      {{ key }}
-    </div>
+    <v-container v-for="key in keys" :key="key">
+      <v-text-field ref="textToCopy">{{ key }}</v-text-field>
+    </v-container>
   </main>
 </template>
