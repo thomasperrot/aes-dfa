@@ -19,7 +19,7 @@ This repository contains:
   * workers in Celery, which use the Rust code for maximum efficiency
 * An awful frontend to submit the data to crack
 
-![A screenshot of the app](https://github.com/thomasperrot/aes-dfa/img/img.png "Successful computation")
+![A screenshot of the app](https://raw.githubusercontent.com/thomasperrot/aes-dfa/refs/heads/master/img/img.png "Successful computation")
 
 ## Usage
 
