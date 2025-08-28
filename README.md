@@ -1,6 +1,11 @@
 # AES-DFA
-[![codecov](https://codecov.io/github/thomasperrot/aes-dfa/graph/badge.svg?token=UL6MZ6UIXQ)](https://codecov.io/github/thomasperrot/aes-dfa)
+
+![license](https://img.shields.io/github/license/thomasperrot/aes-dfa)
+![Rust](https://img.shields.io/badge/rust-%23000000.svg?logo=rust&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?&logo=python&logoColor=ffdd54)
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?logo=vuedotjs)
 ![test working](https://github.com/thomasperrot/aes-dfa/actions/workflows/testing.yml/badge.svg)
+[![codecov](https://codecov.io/github/thomasperrot/aes-dfa/graph/badge.svg?token=UL6MZ6UIXQ)](https://codecov.io/github/thomasperrot/aes-dfa)
 
 An optimized distributed architecture to crack AES using a single fault.
 
@@ -13,6 +18,8 @@ This repository contains:
   * a task queue in Redis
   * workers in Celery, which use the Rust code for maximum efficiency
 * An awful frontend to submit the data to crack
+
+![A screenshot of the app](https://github.com/thomasperrot/aes-dfa/img/img.png "Successful computation")
 
 ## Usage
 
