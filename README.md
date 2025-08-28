@@ -17,7 +17,7 @@ This repository contains:
   * a REST API using FastAPI
   * a task queue in Redis
   * workers in Celery, which use the Rust code for maximum efficiency
-* An awful frontend to submit the data to crack
+* An awful frontend to submit the data to crack, which then displays all possible keys (cf screenshot below)
 
 ![A screenshot of the app](https://raw.githubusercontent.com/thomasperrot/aes-dfa/refs/heads/master/img/img.png "Successful computation")
 
