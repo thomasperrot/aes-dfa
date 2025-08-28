@@ -1,7 +1,6 @@
 # AES-DFA
 [![codecov](https://codecov.io/github/thomasperrot/aes-dfa/graph/badge.svg?token=UL6MZ6UIXQ)](https://codecov.io/github/thomasperrot/aes-dfa)
 ![test working](https://github.com/thomasperrot/aes-dfa/actions/workflows/testing.yml/badge.svg)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aes-dfa)
 
 An optimized distributed architecture to crack AES using a single fault.
 
