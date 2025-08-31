@@ -1,3 +1,5 @@
+import time
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -43,10 +45,11 @@ def test_get_result(celery_worker):
     task = compute_keys.delay(
         "00000000000000000000000000000000", "00000000000000000000000000000000"
     )
+    time.sleep(1)
     response = client.get(url=f"/tasks/{task.id}")
     assert response.status_code == 200
     assert response.json() == {
         "taskId": task.id,
-        "taskResult": None,
-        "taskStatus": "PENDING",
+        "taskResult": [],
+        "taskStatus": "SUCCESS",
     }
