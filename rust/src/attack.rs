@@ -14,6 +14,9 @@ pub fn attack(
     let normal_state = plain_to_square(&normal_cipher_text);
     let faulty_state = plain_to_square(&faulty_cipher_text);
     let equations = get_all_equations(&normal_state, &faulty_state);
+    if equations.is_empty() {
+        return Vec::new();
+    }
 
     let mut threads: Vec<JoinHandle<Vec<Block>>> = Vec::new();
     let chunk_size = (equations.len() as f32 / nb_threads as f32).ceil();
@@ -51,5 +54,13 @@ mod tests {
         ];
         let keys = attack(&normal_cipher_text, &faulty_cipher_text, 3);
         assert_eq!(keys.contains(&expected_key), true);
+    }
+
+    #[test]
+    fn test_attack_no_result() {
+        let normal_cipher_text = [0; 16];
+        let faulty_cipher_text = [0; 16];
+        let keys = attack(&normal_cipher_text, &faulty_cipher_text, 3);
+        assert_eq!(keys, Vec::<Block>::new());
     }
 }

@@ -1,14 +1,14 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12"
 
 [[package]]
 name = "aes-dfa"
-version = "0.1.0"
+version = "0.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/47/4b/ba25930d6655c48555b7c44b6433f7a270a025d35c16344e2b71407678fc/aes_dfa-0.1.0.tar.gz", hash = "sha256:43fd82f776f6fbacfadad9d4403df5416a7129b396f741d680d30b1f602a7d44", size = 18213, upload-time = "2025-08-01T14:51:00.288Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d3/15/d781b82c1275dce7c5d42fa8b61e6974303a335f04e028b8ce80c56b4452/aes_dfa-0.1.1.tar.gz", hash = "sha256:d5ca807d55dd70a654e11b2d70919cde8a36bb92f0f9c785fdddd2cb3413a74e", size = 19124, upload-time = "2025-08-31T16:03:09.096Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/9b/4202ebc65de9a0a1a4443eed044d280b4474d24ae0814fcd8e4a3bf50c7f/aes_dfa-0.1.0-cp312-cp312-manylinux_2_34_x86_64.whl", hash = "sha256:593dea943f19b42c71a8015378ae1975d237c601465eabca55625fd4f34084c0", size = 259487, upload-time = "2025-08-01T14:50:58.676Z" },
+    { url = "https://files.pythonhosted.org/packages/ef/5b/d519265b9a300194f89fcf48eeb1a66289636e325c7758f555a1a85829ed/aes_dfa-0.1.1-cp312-cp312-manylinux_2_34_x86_64.whl", hash = "sha256:03f20f644146d59eb154efe1f1ad0a8600585e5d99233bb78c1ee562841e1ebc", size = 226787, upload-time = "2025-08-31T16:03:07.435Z" },
 ]
 
 [[package]]
@@ -36,7 +36,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aes-dfa", specifier = ">=0.1.0" },
+    { name = "aes-dfa", specifier = "==0.1.1" },
     { name = "celery", extras = ["redis"], specifier = ">=5.5.3" },
     { name = "fastapi", specifier = ">=0.116.1" },
     { name = "flower", specifier = ">=2.0.1" },

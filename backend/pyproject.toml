@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
-    "aes-dfa>=0.1.0",
+    "aes-dfa==0.1.1",
     "celery[redis]>=5.5.3",
     "fastapi>=0.116.1",
     "flower>=2.0.1",
