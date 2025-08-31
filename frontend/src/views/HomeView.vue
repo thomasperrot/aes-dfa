@@ -9,8 +9,8 @@ const normalCipherText = defineModel('normalCipherText', { default: '' })
 const faultyCipherText = defineModel('faultCipherText', { default: '' })
 const loading = defineModel('loading', { default: false })
 const status = defineModel('status', { default: '' })
-const error = defineModel('error', { default: '' })
 const keys = defineModel('keys', { default: [] })
+const message = defineModel('message', { default: '' })
 const cipherTextRules = [
   (value: string) => (/^[0-9a-f]{32}$/.test(value) ? true : 'Cipher text must be 32 hex chars'),
 ]
@@ -18,7 +18,7 @@ const cipherTextRules = [
 async function submit() {
   loading.value = true
   status.value = ''
-  error.value = ''
+  message.value = ''
   keys.value = []
 
   let response
@@ -29,33 +29,41 @@ async function submit() {
       faultyCipherText: faultyCipherText.value,
     })
   } catch {
-    error.value = 'Failed to send your ciphertext to computation. Please try again.'
+    status.value = 'ERROR'
+    message.value = 'Failed to send your ciphertext to computation. Please try again.'
     return
   }
   if (response.status != 201) {
-    error.value = `Status code ${response.status}`
+    status.value = 'ERROR'
+    message.value = `Status code ${response.status}`
   }
   const taskId = response.data['taskId']
   while (true) {
     try {
       response = await axios.get(`/tasks/${taskId}`)
     } catch {
-      error.value = 'Failed to fetch your task result. Please try again.'
+      status.value = 'ERROR'
+      message.value = 'Failed to fetch your task result. Please try again.'
       return
     }
     taskStatus = response.data.taskStatus
     if (taskStatus === 'PENDING') {
-      status.value = 'Your task is currently waiting. Processing will start soon.'
+      status.value = 'PENDING'
+      message.value = 'Your task is currently waiting. Processing will start soon.'
     } else if (taskStatus === 'STARTED') {
-      status.value = 'Your task has started, it should be completed in one minute.'
+      status.value = 'PENDING'
+      message.value = 'Your task has started, it should be completed in one minute.'
     } else if (response.data.taskStatus === 'RETRY') {
-      status.value = 'Your task is being retried.'
+      status.value = 'RETRY'
+      message.value = 'Your task is being retried.'
     } else if (response.data.taskStatus === 'SUCCESS') {
-      status.value = 'Computation successful.'
+      status.value = 'SUCCESS'
+      message.value = 'Computation successful.'
       keys.value = response.data.taskResult
       break
     } else if (response.data.taskStatus === 'ERROR') {
-      error.value = 'Something went wrong. Please investigate.'
+      status.value = 'ERROR'
+      message.value = 'Something went wrong. Please investigate.'
       break
     }
     await new Promise((r) => setTimeout(r, 1000))
@@ -88,12 +96,14 @@ async function submit() {
         block
       ></v-btn>
     </v-form>
-    <div v-if="error">
-      {{ error }}
+    <div v-if="message">
+      {{ message }}
     </div>
-    <div v-if="status">
-      {{ status }}
+    <div v-if="status === 'SUCCESS'">
+      <div v-if="keys.length > 0">
+        <CrackedKey v-for="crackedKey in keys" :key="crackedKey" :crackedKey="crackedKey" />
+      </div>
+      <div v-else>No key found</div>
     </div>
-    <CrackedKey v-for="crackedKey in keys" :key="crackedKey" :crackedKey="crackedKey" />
   </main>
 </template>
